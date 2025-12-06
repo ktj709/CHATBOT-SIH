@@ -306,11 +306,11 @@ HTML_TEMPLATE = """
         function formatResponse(text) {
             // Convert markdown-style formatting
             return text
-                .replace(/\\n/g, '<br>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\\\\n/g, '<br>')
+                .replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')
+                .replace(/\\*(.*?)\\*/g, '<em>$1</em>')
                 .replace(/^- (.+)$/gm, '• $1')
-                .replace(/^(\d+)\. (.+)$/gm, '$1. $2');
+                .replace(/^(\\d+)\\. (.+)$/gm, '$1. $2');
         }
     </script>
 </body>
