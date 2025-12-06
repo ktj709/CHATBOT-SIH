@@ -1,0 +1,962 @@
+{
+    "project": {
+        "name": "GyaanSetu",
+        "description": "GyaanSetu is a comprehensive education platform developed for Smart India Hackathon (SIH) 2025. It combines traditional e-learning with blockchain-based certificate verification, real-time collaborative whiteboards, and community features to create a complete digital education ecosystem.",
+        "tagline": "Bridging the gap in education through technology",
+        "version": "2025",
+        "type": "Education Technology Platform"
+    },
+    "architecture": {
+        "overview": "Multi-service architecture with 7 distinct components working together",
+        "components": [
+            {
+                "name": "SIH-MainWebsite-Frontend-2025",
+                "type": "Web Application",
+                "technology": {
+                    "framework": "Next.js 14",
+                    "language": "TypeScript/JavaScript",
+                    "styling": "Tailwind CSS",
+                    "stateManagement": "Redux Toolkit",
+                    "database": "MongoDB (Mongoose)",
+                    "authentication": "JWT with bcrypt"
+                }
+            },
+            {
+                "name": "SIH-Contract-2025",
+                "type": "Smart Contract",
+                "technology": {
+                    "language": "Solidity",
+                    "framework": "Foundry",
+                    "blockchain": "Ethereum (Sepolia testnet)"
+                }
+            },
+            {
+                "name": "SIH-Contract-Backend-2025",
+                "type": "API Server",
+                "technology": {
+                    "runtime": "Node.js",
+                    "framework": "Express.js",
+                    "blockchain": "ethers.js"
+                }
+            },
+            {
+                "name": "SIH-Community-2025",
+                "type": "Community Portal",
+                "technology": {
+                    "framework": "Next.js",
+                    "language": "TypeScript",
+                    "database": "Prisma ORM"
+                }
+            },
+            {
+                "name": "SIH-Whiteboard-Frontend-2025",
+                "type": "Collaborative Whiteboard",
+                "technology": {
+                    "framework": "React",
+                    "stateManagement": "Redux",
+                    "realtime": "Socket.io-client"
+                }
+            },
+            {
+                "name": "SIH-Whiteboard-Backend-Socket-2025",
+                "type": "Real-time Backend",
+                "technology": {
+                    "runtime": "Node.js",
+                    "framework": "Express.js + Socket.io",
+                    "storage": "Cloudinary",
+                    "ai": "Google Generative AI"
+                }
+            },
+            {
+                "name": "SIH-Whiteboard-Audio-Backend-2025",
+                "type": "Audio Processing Backend",
+                "technology": {
+                    "runtime": "Node.js",
+                    "webrtc": "Socket.io for signaling",
+                    "transcription": "Google Gemini AI",
+                    "storage": "Cloudinary",
+                    "summarization": "External API integration"
+                }
+            }
+        ]
+    },
+    "features": {
+        "userManagement": {
+            "description": "Multi-role user authentication and profile management",
+            "roles": [
+                {
+                    "role": "Student",
+                    "capabilities": [
+                        "Create account with email and password",
+                        "Complete profile with degree, semester, year, roll number, college name",
+                        "Browse and enroll in courses",
+                        "Attend live classes via whiteboard",
+                        "View enrolled courses and progress",
+                        "Access digital library resources",
+                        "Ask doubts and get resolutions",
+                        "Receive blockchain-verified certificates",
+                        "Participate in community discussions"
+                    ],
+                    "profileFields": [
+                        "firstname",
+                        "lastname",
+                        "email",
+                        "dob",
+                        "degree",
+                        "semester",
+                        "year",
+                        "rollNumber",
+                        "collegeName",
+                        "phone",
+                        "address"
+                    ]
+                },
+                {
+                    "role": "Teacher",
+                    "capabilities": [
+                        "Create account with credentials",
+                        "Set up teaching timetable with day-wise slots",
+                        "Create and manage courses",
+                        "Conduct live whiteboard sessions",
+                        "Track student attendance",
+                        "Issue certificates to students",
+                        "Upload course materials",
+                        "Manage enrolled students",
+                        "Access teacher dashboard"
+                    ],
+                    "profileFields": [
+                        "firstName",
+                        "lastName",
+                        "email",
+                        "age",
+                        "Subject",
+                        "timetable"
+                    ]
+                },
+                {
+                    "role": "Parent",
+                    "capabilities": [
+                        "Monitor child's progress",
+                        "View enrollment status",
+                        "Access parent dashboard"
+                    ]
+                }
+            ]
+        },
+        "courseManagement": {
+            "description": "Comprehensive course creation, management, and enrollment system",
+            "features": [
+                {
+                    "name": "Course Creation",
+                    "details": [
+                        "Instructor information capture (name, email, phone)",
+                        "Course title and description",
+                        "Category selection (Mathematics, Physics, Chemistry, English, Web Development, Designing, AI/ML, Other)",
+                        "Difficulty level (Beginner, Intermediate, Advanced)",
+                        "Duration specification",
+                        "Multi-language support (English, Hindi, Bengali, Marathi, Kannada, Punjabi, Bilingual)",
+                        "Prerequisites and learning outcomes",
+                        "Automatic tag generation from content",
+                        "Draft or Published status"
+                    ]
+                },
+                {
+                    "name": "Course Enrollment",
+                    "details": [
+                        "Students can enroll in published courses",
+                        "Student information snapshot stored with enrollment",
+                        "Enrollment status tracking (Active, Completed, Dropped)",
+                        "View enrolled students per course",
+                        "Track course views and engagement metrics"
+                    ]
+                },
+                {
+                    "name": "Course Discovery",
+                    "details": [
+                        "Browse courses by category",
+                        "Filter by difficulty level",
+                        "Search by language",
+                        "View popular courses by enrollment count"
+                    ]
+                }
+            ]
+        },
+        "certificateSystem": {
+            "description": "Blockchain-based certificate issuance and verification using Ethereum smart contracts",
+            "blockchain": {
+                "network": "Ethereum Sepolia Testnet",
+                "contractName": "CertificateVerification",
+                "features": [
+                    "Immutable certificate storage on blockchain",
+                    "Unique certificate hash enforcement",
+                    "College-only issuance authority",
+                    "Certificate revocation capability",
+                    "Public verification of certificates"
+                ]
+            },
+            "endpoints": [
+                {
+                    "name": "Issue Certificate",
+                    "method": "POST",
+                    "path": "/issue-certificate",
+                    "description": "Issues a new certificate on the blockchain",
+                    "parameters": [
+                        "studentIdentifier",
+                        "certificateHash",
+                        "metadataURI"
+                    ],
+                    "response": [
+                        "txHash",
+                        "blockNumber",
+                        "certificateId",
+                        "gasUsed"
+                    ]
+                },
+                {
+                    "name": "Verify Certificate",
+                    "method": "GET",
+                    "path": "/verify-certificate",
+                    "description": "Verifies a certificate by ID or hash",
+                    "queryParams": [
+                        "certificateId",
+                        "certificateHash"
+                    ],
+                    "response": [
+                        "exists",
+                        "isValid",
+                        "revoked",
+                        "studentIdentifier",
+                        "issuedAt",
+                        "issuerAddress"
+                    ]
+                },
+                {
+                    "name": "Revoke Certificate",
+                    "method": "POST",
+                    "path": "/revoke-certificate",
+                    "description": "Revokes an existing certificate",
+                    "parameters": [
+                        "certificateId"
+                    ],
+                    "response": [
+                        "success",
+                        "txHash",
+                        "blockNumber"
+                    ]
+                },
+                {
+                    "name": "Health Check",
+                    "method": "GET",
+                    "path": "/health",
+                    "description": "Check server and contract status",
+                    "response": [
+                        "status",
+                        "contractAddress",
+                        "collegeAddress",
+                        "totalCertificates"
+                    ]
+                }
+            ],
+            "certificateData": {
+                "onChain": [
+                    "certificateId",
+                    "studentIdentifier",
+                    "certificateHash",
+                    "metadataURI",
+                    "issuedAt",
+                    "revoked"
+                ],
+                "offChain": [
+                    "certificateUrl",
+                    "issuedBy",
+                    "txHash",
+                    "blockNumber"
+                ]
+            }
+        },
+        "collaborativeWhiteboard": {
+            "description": "Real-time collaborative whiteboard for online classes with teacher and student roles",
+            "features": [
+                {
+                    "name": "Room Management",
+                    "details": [
+                        "Create or join rooms with unique Room ID",
+                        "Teacher and Student role selection",
+                        "Real-time user presence tracking",
+                        "Automatic state synchronization for new joiners"
+                    ]
+                },
+                {
+                    "name": "Drawing Tools",
+                    "details": [
+                        "Pencil/freehand drawing",
+                        "Shapes: Rectangle, Circle, Triangle, Diamond, Star, Arrow, Pentagon, Hexagon, Heart, Cloud",
+                        "Line tool",
+                        "Text elements",
+                        "Eraser tool",
+                        "Color selection",
+                        "Stroke width adjustment",
+                        "Fill styles (solid, hachure)"
+                    ]
+                },
+                {
+                    "name": "Slide Management",
+                    "details": [
+                        "Multiple slides per session",
+                        "Create, delete, rename slides",
+                        "Switch between slides",
+                        "All users synchronized on current slide"
+                    ]
+                },
+                {
+                    "name": "PDF Import",
+                    "details": [
+                        "Upload PDF files",
+                        "Automatic PDF to image conversion via Cloudinary",
+                        "Each PDF page becomes a new slide",
+                        "Supports chunked upload for large files"
+                    ]
+                },
+                {
+                    "name": "Theme Switching",
+                    "details": [
+                        "Light mode (whiteboard) and Dark mode (blackboard)",
+                        "Automatic color inversion when switching themes",
+                        "All elements adapt to new theme",
+                        "Eraser blends with current background"
+                    ]
+                },
+                {
+                    "name": "Cursor Sharing",
+                    "details": [
+                        "Real-time cursor position broadcast",
+                        "See other users' cursors with their names",
+                        "Multi-user collaboration support"
+                    ]
+                }
+            ]
+        },
+        "audioVideoClasses": {
+            "description": "WebRTC-based audio/video communication for live classes with recording and transcription",
+            "features": [
+                {
+                    "name": "Live Audio/Video",
+                    "details": [
+                        "WebRTC peer-to-peer connections",
+                        "Teacher can mute/unmute students",
+                        "Real-time ICE candidate exchange",
+                        "SDP offer/answer signaling"
+                    ]
+                },
+                {
+                    "name": "Recording & Transcription",
+                    "details": [
+                        "Automatic recording of teacher sessions",
+                        "Chunked upload during recording",
+                        "AI transcription using Google Gemini 2.0",
+                        "Cloudinary storage for recordings"
+                    ]
+                },
+                {
+                    "name": "Notes Generation",
+                    "details": [
+                        "Automatic notes generation from transcription",
+                        "Integration with external summarization API",
+                        "Notes stored and linked to class session"
+                    ]
+                }
+            ]
+        },
+        "communityPortal": {
+            "description": "Community features for student collaboration and messaging",
+            "features": [
+                "User conversations and direct messaging",
+                "User profiles with avatars",
+                "Active status indicators",
+                "Group conversations support",
+                "Real-time messaging"
+            ]
+        },
+        "donationSystem": {
+            "description": "Accept monetary and resource donations for educational support",
+            "donationTypes": [
+                {
+                    "type": "Monetary",
+                    "fields": [
+                        "amount",
+                        "currency (INR)"
+                    ],
+                    "minAmount": 1
+                },
+                {
+                    "type": "Resource",
+                    "categories": [
+                        "Books",
+                        "Electronics",
+                        "Stationery",
+                        "Furniture",
+                        "Other"
+                    ],
+                    "fields": [
+                        "resourceType",
+                        "resourceDescription"
+                    ]
+                }
+            ],
+            "features": [
+                "Donor information capture",
+                "Anonymous donation option",
+                "Donation status tracking (Pending, Confirmed, Completed)",
+                "Donor message support"
+            ]
+        },
+        "seminarManagement": {
+            "description": "Host and manage educational seminars and workshops",
+            "features": [
+                {
+                    "name": "Seminar Creation",
+                    "details": [
+                        "Topic and description",
+                        "Date and time scheduling",
+                        "Duration options (1-hour, 2-hours, half-day, full-day)",
+                        "Location specification",
+                        "Expected attendees count"
+                    ]
+                },
+                {
+                    "name": "Seminar Management",
+                    "details": [
+                        "Email verification for hosts",
+                        "Status workflow (Pending → Approved → Completed/Rejected)",
+                        "Admin notes and feedback"
+                    ]
+                }
+            ]
+        },
+        "techFair": {
+            "description": "Technology fair registration and management system",
+            "features": [
+                "Participant registration",
+                "Event scheduling",
+                "Registration status tracking"
+            ]
+        },
+        "doubtResolution": {
+            "description": "Student doubt asking and resolution system",
+            "features": [
+                "Submit doubts by subject",
+                "Teacher responses",
+                "Doubt history tracking"
+            ]
+        },
+        "digitalLibrary": {
+            "description": "Access to educational resources and materials",
+            "features": [
+                "Course materials access",
+                "Resource organization by course",
+                "Download capabilities"
+            ]
+        }
+    },
+    "howToUse": {
+        "forStudents": {
+            "gettingStarted": [
+                "Visit the main website and click 'Sign Up'",
+                "Select 'Student' role and fill in registration details",
+                "Complete your profile with academic information",
+                "Browse available courses on the course page",
+                "Click 'Enroll' on a course to start learning"
+            ],
+            "attendingClasses": [
+                "Check your enrolled courses on the dashboard",
+                "Click on a live class when scheduled",
+                "You'll be redirected to the whiteboard with Room ID auto-filled",
+                "Select 'Student' role and enter your name to join",
+                "View teacher's whiteboard in real-time",
+                "Audio/video connection may be established automatically"
+            ],
+            "gettingCertificates": [
+                "Complete a course successfully",
+                "Instructor will issue a certificate",
+                "Certificate is stored on blockchain for verification",
+                "Access your certificate from the certificates section",
+                "Share the verification link for third-party verification"
+            ]
+        },
+        "forTeachers": {
+            "gettingStarted": [
+                "Visit the main website and click 'Sign Up'",
+                "Select 'Teacher' role during registration",
+                "Fill in your subject expertise and details",
+                "Set up your teaching timetable",
+                "Access the teacher dashboard"
+            ],
+            "creatingCourses": [
+                "Go to 'Contribute' section from navigation",
+                "Fill in course details (title, category, level, language)",
+                "Add detailed description (minimum 50 characters)",
+                "Specify duration and prerequisites",
+                "Choose 'Published' to make course visible",
+                "Upload course materials as needed"
+            ],
+            "conductingClasses": [
+                "Create a whiteboard room with a unique Room ID",
+                "Select 'Teacher' role when joining",
+                "Share the Room ID with students",
+                "Use drawing tools to explain concepts",
+                "Upload PDFs to convert to slides",
+                "Toggle theme between whiteboard/blackboard as needed",
+                "Your audio will be automatically recorded and transcribed"
+            ],
+            "issuingCertificates": [
+                "Go to enrolled students for your course",
+                "Select students who completed the course",
+                "Issue certificate through the certificate system",
+                "Certificate is automatically stored on blockchain",
+                "Students receive notification of issued certificate"
+            ]
+        },
+        "forAdmins": {
+            "certificateVerification": [
+                "Access the certificate verification page",
+                "Enter Certificate ID or Certificate Hash",
+                "System queries blockchain for verification",
+                "View certificate status (valid, revoked, not found)"
+            ],
+            "monitoringHealth": [
+                "Call GET /health on the certificate backend",
+                "Check server status and contract connection",
+                "View total certificates issued"
+            ]
+        }
+    },
+    "apiEndpoints": {
+        "mainWebsite": {
+            "baseUrl": "Main website URL",
+            "endpoints": [
+                {
+                    "path": "/api/auth/*",
+                    "description": "Authentication endpoints (login, signup, logout)"
+                },
+                {
+                    "path": "/api/courses/*",
+                    "description": "Course CRUD operations"
+                },
+                {
+                    "path": "/api/certificates/*",
+                    "description": "Certificate management"
+                },
+                {
+                    "path": "/api/donations/*",
+                    "description": "Donation handling"
+                },
+                {
+                    "path": "/api/feedback/*",
+                    "description": "User feedback"
+                },
+                {
+                    "path": "/api/otp/*",
+                    "description": "OTP verification"
+                },
+                {
+                    "path": "/api/profile/*",
+                    "description": "User profile management"
+                },
+                {
+                    "path": "/api/seminar/*",
+                    "description": "Seminar management"
+                },
+                {
+                    "path": "/api/tech-fair/*",
+                    "description": "Tech fair registration"
+                },
+                {
+                    "path": "/api/classes/*",
+                    "description": "Class management"
+                }
+            ]
+        },
+        "certificateBackend": {
+            "baseUrl": "http://localhost:3000",
+            "endpoints": [
+                {
+                    "method": "POST",
+                    "path": "/issue-certificate",
+                    "description": "Issue new blockchain certificate"
+                },
+                {
+                    "method": "GET",
+                    "path": "/verify-certificate",
+                    "description": "Verify certificate by ID or hash"
+                },
+                {
+                    "method": "POST",
+                    "path": "/revoke-certificate",
+                    "description": "Revoke existing certificate"
+                },
+                {
+                    "method": "GET",
+                    "path": "/health",
+                    "description": "Check server health"
+                },
+                {
+                    "method": "GET",
+                    "path": "/",
+                    "description": "API documentation"
+                }
+            ]
+        },
+        "whiteboardSocket": {
+            "events": [
+                {
+                    "event": "join-room",
+                    "direction": "client→server",
+                    "description": "Join a whiteboard room"
+                },
+                {
+                    "event": "whiteboard-state",
+                    "direction": "server→client",
+                    "description": "Receive full room state"
+                },
+                {
+                    "event": "element-update",
+                    "direction": "bidirectional",
+                    "description": "Update single element"
+                },
+                {
+                    "event": "elements-update",
+                    "direction": "bidirectional",
+                    "description": "Update all elements"
+                },
+                {
+                    "event": "create-slide",
+                    "direction": "client→server",
+                    "description": "Create new slide"
+                },
+                {
+                    "event": "delete-slide",
+                    "direction": "client→server",
+                    "description": "Delete a slide"
+                },
+                {
+                    "event": "switch-slide",
+                    "direction": "bidirectional",
+                    "description": "Switch current slide"
+                },
+                {
+                    "event": "upload-pdf-chunk",
+                    "direction": "client→server",
+                    "description": "Upload PDF in chunks"
+                },
+                {
+                    "event": "cursor-position",
+                    "direction": "bidirectional",
+                    "description": "Share cursor position"
+                },
+                {
+                    "event": "whiteboard-clear",
+                    "direction": "bidirectional",
+                    "description": "Clear whiteboard"
+                },
+                {
+                    "event": "whiteboard:saveAll",
+                    "direction": "client→server",
+                    "description": "Save session to database"
+                }
+            ]
+        },
+        "audioSocket": {
+            "events": [
+                {
+                    "event": "join-room",
+                    "direction": "client→server",
+                    "description": "Join audio room"
+                },
+                {
+                    "event": "offer",
+                    "direction": "bidirectional",
+                    "description": "WebRTC SDP offer"
+                },
+                {
+                    "event": "answer",
+                    "direction": "bidirectional",
+                    "description": "WebRTC SDP answer"
+                },
+                {
+                    "event": "ice-candidate",
+                    "direction": "bidirectional",
+                    "description": "ICE candidate exchange"
+                },
+                {
+                    "event": "mute-student",
+                    "direction": "teacher→server",
+                    "description": "Mute a student"
+                },
+                {
+                    "event": "unmute-student",
+                    "direction": "teacher→server",
+                    "description": "Unmute a student"
+                },
+                {
+                    "event": "recording-uploaded",
+                    "direction": "server→client",
+                    "description": "Recording available"
+                }
+            ],
+            "httpEndpoints": [
+                {
+                    "method": "POST",
+                    "path": "/upload-chunk",
+                    "description": "Upload recording chunk"
+                }
+            ]
+        }
+    },
+    "dataModels": {
+        "User": {
+            "fields": [
+                "firstname",
+                "lastname",
+                "email",
+                "password",
+                "dob",
+                "degree",
+                "semester",
+                "year",
+                "rollNumber",
+                "collegeName",
+                "phone",
+                "address",
+                "profileCompleted",
+                "role"
+            ],
+            "defaults": {
+                "role": "Student",
+                "profileCompleted": false
+            }
+        },
+        "Teacher": {
+            "fields": [
+                "firstName",
+                "lastName",
+                "email",
+                "password",
+                "age",
+                "Subject",
+                "timetable",
+                "role"
+            ],
+            "timetable": {
+                "structure": "Array of DaySchedule with day (Monday-Friday) and slots (time, subject, class)"
+            }
+        },
+        "Course": {
+            "fields": [
+                "instructorName",
+                "email",
+                "phone",
+                "courseTitle",
+                "category",
+                "level",
+                "duration",
+                "language",
+                "description",
+                "status",
+                "views",
+                "enrollments",
+                "tags",
+                "prerequisites",
+                "learningOutcomes",
+                "publishedAt",
+                "isActive"
+            ]
+        },
+        "Enrollment": {
+            "fields": [
+                "studentId",
+                "courseId",
+                "studentInfo",
+                "status",
+                "certificate",
+                "enrolledAt"
+            ],
+            "certificate": {
+                "structure": "issued, issuedAt, certificateHash, certificateUrl, issuedBy, blockchain (uploaded, txHash, blockNumber, certificateId, uploadedAt)"
+            }
+        },
+        "Donation": {
+            "fields": [
+                "donorName",
+                "email",
+                "phone",
+                "donationType",
+                "amount",
+                "currency",
+                "resourceType",
+                "resourceDescription",
+                "message",
+                "isAnonymous",
+                "status"
+            ]
+        },
+        "Seminar": {
+            "fields": [
+                "name",
+                "email",
+                "phone",
+                "topic",
+                "date",
+                "duration",
+                "location",
+                "expectedAttendees",
+                "description",
+                "isEmailVerified",
+                "status",
+                "notes"
+            ]
+        },
+        "Certificate (Blockchain)": {
+            "fields": [
+                "certificateId",
+                "studentIdentifier",
+                "certificateHash",
+                "metadataURI",
+                "issuedAt",
+                "revoked"
+            ]
+        }
+    },
+    "deployment": {
+        "mainWebsite": {
+            "platform": "Vercel (recommended)",
+            "commands": {
+                "development": "npm run dev",
+                "build": "npm run build",
+                "production": "npm start"
+            },
+            "environment": [
+                "DATABASE_URL",
+                "JWT_SECRET",
+                "NEXT_PUBLIC_API_URL"
+            ]
+        },
+        "whiteboardFrontend": {
+            "platform": "Vercel",
+            "deployedURL": "https://sih-2025-whiteboard-frontend.vercel.app",
+            "commands": {
+                "development": "npm start or yarn start"
+            }
+        },
+        "whiteboardBackend": {
+            "platform": "Any Node.js hosting (Render, Railway, Heroku)",
+            "commands": {
+                "production": "npm start"
+            },
+            "environment": [
+                "YOUR_CLOUD_NAME",
+                "YOUR_API_KEY",
+                "YOUR_SECRET",
+                "GEMINI_API_KEY",
+                "MONGODB_URI"
+            ]
+        },
+        "audioBackend": {
+            "platform": "Any Node.js hosting",
+            "port": 3001,
+            "environment": [
+                "OPENAI_API_KEY",
+                "GEMINI_API_KEY",
+                "CLOUDINARY_CLOUD_NAME",
+                "CLOUDINARY_API_KEY",
+                "CLOUDINARY_API_SECRET",
+                "MONGODB_URI"
+            ]
+        },
+        "certificateBackend": {
+            "platform": "Any Node.js hosting",
+            "port": 3000,
+            "environment": [
+                "RPC_URL",
+                "PRIVATE_KEY",
+                "CONTRACT_ADDRESS"
+            ]
+        },
+        "smartContract": {
+            "network": "Ethereum Sepolia Testnet",
+            "tools": "Foundry (forge)",
+            "commands": {
+                "build": "forge build",
+                "test": "forge test",
+                "deploy": "forge script script/Counter.s.sol:CounterScript --rpc-url <rpc_url> --private-key <key>"
+            }
+        }
+    },
+    "faq": [
+        {
+            "question": "What is GyaanSetu?",
+            "answer": "GyaanSetu is a comprehensive education platform that combines online courses, live collaborative whiteboards, blockchain-verified certificates, and community features to provide a complete digital learning experience."
+        },
+        {
+            "question": "How do I register as a student?",
+            "answer": "Visit the main website, click Sign Up, select Student role, fill in your details including email and password, then complete your profile with academic information like degree, semester, and college name."
+        },
+        {
+            "question": "How do I join a live class?",
+            "answer": "Check your dashboard for scheduled classes. Click on a live class to be redirected to the whiteboard. Enter the Room ID provided by your teacher, select Student role, enter your name, and click Join Whiteboard."
+        },
+        {
+            "question": "What courses are available?",
+            "answer": "Courses are available in categories: Mathematics, Physics, Chemistry, English, Web Development, Designing, AI/ML, and Other. Courses come in multiple difficulty levels (Beginner, Intermediate, Advanced) and languages (English, Hindi, Bengali, Marathi, Kannada, Punjabi)."
+        },
+        {
+            "question": "How are certificates verified?",
+            "answer": "Certificates are stored on the Ethereum blockchain. Anyone can verify a certificate by entering the Certificate ID or Hash on the verification page. The system checks the blockchain for authenticity and revocation status."
+        },
+        {
+            "question": "Can I make donations to support education?",
+            "answer": "Yes! You can make monetary donations (minimum ₹1) or donate resources like books, electronics, stationery, or furniture. Anonymous donation option is available."
+        },
+        {
+            "question": "What tools are available on the whiteboard?",
+            "answer": "The whiteboard includes pencil/freehand drawing, shapes (rectangle, circle, triangle, diamond, star, arrow, pentagon, hexagon, heart, cloud), line tool, text, eraser, color selection, stroke width adjustment, and fill styles."
+        },
+        {
+            "question": "Can I upload PDFs to the whiteboard?",
+            "answer": "Yes, teachers can upload PDF files which are automatically converted to slides. Each page becomes a separate slide that can be annotated."
+        },
+        {
+            "question": "Are classes recorded?",
+            "answer": "Yes, live classes are automatically recorded. After the session, the recording is uploaded to cloud storage, transcribed using AI, and notes are automatically generated."
+        },
+        {
+            "question": "How do I switch between light and dark mode on the whiteboard?",
+            "answer": "Teachers can toggle between whiteboard (light) and blackboard (dark) modes using the theme toggle button. All drawing colors automatically invert to maintain visibility."
+        },
+        {
+            "question": "How do I host a seminar?",
+            "answer": "Go to the seminar section, fill in details including topic, date, duration (1-hour to full-day), location, and description. Admin will review and approve your seminar request."
+        },
+        {
+            "question": "What is the community portal for?",
+            "answer": "The community portal enables students and teachers to connect through direct messaging and group conversations for collaborative learning and doubt resolution."
+        }
+    ],
+    "technicalRequirements": {
+        "browser": "Modern browsers (Chrome, Firefox, Safari, Edge) with WebSocket and WebRTC support",
+        "student": [
+            "Stable internet connection",
+            "Microphone for audio classes (optional)"
+        ],
+        "teacher": [
+            "Stable internet connection",
+            "Microphone for audio recording",
+            "PDF files for slide upload (optional)"
+        ]
+    },
+    "metadata": {
+        "generatedAt": "2025-12-06",
+        "generatedFor": "RAG Chatbot Knowledge Base",
+        "version": "1.0",
+        "lastUpdated": "December 2025"
+    }
+}
