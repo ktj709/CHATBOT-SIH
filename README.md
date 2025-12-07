@@ -1,6 +1,6 @@
-# GyaanSetu RAG Chatbot
+# NavShiksha RAG Chatbot
 
-A Python-based RAG (Retrieval-Augmented Generation) chatbot for the GyaanSetu education platform. Uses TF-IDF for lightweight retrieval and Gemini 2.0 Flash for response generation.
+A Python-based RAG (Retrieval-Augmented Generation) chatbot for the NavShiksha education platform. Uses TF-IDF for lightweight retrieval and Gemini 2.0 Flash for response generation.
 
 ## Features
 
@@ -79,7 +79,7 @@ python app.py
 from chatbot import get_chatbot
 
 bot = get_chatbot()
-response = bot.chat("What is GyaanSetu?")
+response = bot.chat("What is NavShiksha?")
 print(response)
 ```
 

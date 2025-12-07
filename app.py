@@ -1,5 +1,5 @@
 """
-Flask Web Application for GyaanSetu RAG Chatbot.
+Flask Web Application for NavShiksha RAG Chatbot.
 Deployable to Render.
 """
 from flask import Flask, request, jsonify, render_template_string
@@ -15,7 +15,7 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GyaanSetu Assistant</title>
+    <title>NavShiksha Assistant</title>
     <style>
         * {
             margin: 0;
@@ -208,17 +208,17 @@ HTML_TEMPLATE = """
 <body>
     <div class="container">
         <header>
-            <h1>🎓 GyaanSetu Assistant</h1>
-            <p class="subtitle">Your AI guide to the GyaanSetu education platform</p>
+            <h1>🎓 NavShiksha Assistant</h1>
+            <p class="subtitle">Your AI guide to the NavShiksha education platform</p>
         </header>
         
         <div class="chat-container">
             <div class="messages" id="messages">
                 <div class="welcome-message">
                     <h2>Welcome! 👋</h2>
-                    <p>I can help you learn about GyaanSetu - courses, live classes, certificates, and more!</p>
+                    <p>I can help you learn about NavShiksha - courses, live classes, certificates, and more!</p>
                     <div class="suggestions">
-                        <div class="suggestion" onclick="askQuestion('What is GyaanSetu?')">What is GyaanSetu?</div>
+                        <div class="suggestion" onclick="askQuestion('What is NavShiksha?')">What is NavShiksha?</div>
                         <div class="suggestion" onclick="askQuestion('How do I register as a student?')">How to register?</div>
                         <div class="suggestion" onclick="askQuestion('What tools are on the whiteboard?')">Whiteboard tools</div>
                         <div class="suggestion" onclick="askQuestion('How are certificates verified?')">Certificate verification</div>
@@ -227,7 +227,7 @@ HTML_TEMPLATE = """
             </div>
             
             <div class="input-container">
-                <input type="text" id="user-input" placeholder="Ask me anything about GyaanSetu..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="user-input" placeholder="Ask me anything about NavShiksha..." onkeypress="handleKeyPress(event)">
                 <button id="send-btn" onclick="sendMessage()">Send</button>
             </div>
         </div>
@@ -345,7 +345,7 @@ def chat():
 @app.route('/health')
 def health():
     """Health check endpoint for Render."""
-    return jsonify({'status': 'healthy', 'service': 'GyaanSetu Chatbot'})
+    return jsonify({'status': 'healthy', 'service': 'NavShiksha Chatbot'})
 
 
 @app.route('/clear', methods=['POST'])
@@ -360,5 +360,5 @@ def clear():
 
 
 if __name__ == '__main__':
-    print(f"Starting GyaanSetu Chatbot on port {PORT}")
+    print(f"Starting NavShiksha Chatbot on port {PORT}")
     app.run(host='0.0.0.0', port=PORT, debug=DEBUG)

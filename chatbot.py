@@ -9,10 +9,10 @@ from retriever import get_retriever
 
 
 # System prompt template
-SYSTEM_PROMPT = """You are a helpful assistant for GyaanSetu, an education platform developed for Smart India Hackathon 2025.
+SYSTEM_PROMPT = """You are a helpful assistant for NavShiksha, an education platform developed for Smart India Hackathon 2025.
 
 Your role is to:
-1. Answer questions about GyaanSetu's features and functionalities
+1. Answer questions about NavShiksha's features and functionalities
 2. Guide users on how to use the platform (students, teachers, admins)
 3. Explain the technical aspects like blockchain certificates, whiteboard, audio/video classes
 4. Be friendly, concise, and helpful
@@ -22,10 +22,10 @@ IMPORTANT RULES:
 - If the information is not in the context, politely say you don't have that information
 - Keep responses clear and to the point
 - Use bullet points or numbered lists for step-by-step instructions
-- If asked about something unrelated to GyaanSetu, redirect to platform-related help
+- If asked about something unrelated to NavShiksha, redirect to platform-related help
 """
 
-RAG_PROMPT_TEMPLATE = """Based on the following context from GyaanSetu knowledge base, answer the user's question.
+RAG_PROMPT_TEMPLATE = """Based on the following context from NavShiksha knowledge base, answer the user's question.
 
 CONTEXT:
 {context}
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     bot = get_chatbot()
     
     test_questions = [
-        "What is GyaanSetu?",
+        "What is NavShiksha?",
         "How do I join a live class as a student?",
         "Tell me about the whiteboard features"
     ]

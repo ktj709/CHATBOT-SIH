@@ -1,5 +1,5 @@
 """
-Knowledge Base Processor for GyaanSetu RAG Chatbot.
+Knowledge Base Processor for NavShiksha RAG Chatbot.
 Loads and processes knowledge_base.json into searchable text chunks.
 """
 import json
@@ -49,7 +49,7 @@ def create_chunks() -> List[Dict[str, str]]:
     project = kb.get("project", {})
     chunks.append({
         "category": "Project Overview",
-        "text": f"GyaanSetu is {project.get('description', '')}. Tagline: {project.get('tagline', '')}. Version: {project.get('version', '')}. Type: {project.get('type', '')}."
+        "text": f"NavShiksha is {project.get('description', '')}. Tagline: {project.get('tagline', '')}. Version: {project.get('version', '')}. Type: {project.get('type', '')}."
     })
     
     # 2. Architecture Components

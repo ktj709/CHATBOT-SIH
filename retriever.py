@@ -102,7 +102,7 @@ if __name__ == "__main__":
     retriever = get_retriever()
     
     test_queries = [
-        "What is GyaanSetu?",
+        "What is NavShiksha?",
         "How do I register as a student?",
         "What tools are available on the whiteboard?",
         "How are certificates verified?"

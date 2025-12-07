@@ -1,7 +1,7 @@
 {
     "project": {
-        "name": "GyaanSetu",
-        "description": "GyaanSetu is a comprehensive education platform developed for Smart India Hackathon (SIH) 2025. It combines traditional e-learning with blockchain-based certificate verification, real-time collaborative whiteboards, and community features to create a complete digital education ecosystem.",
+        "name": "NavShiksha",
+        "description": "NavShiksha is a comprehensive education platform developed for Smart India Hackathon (SIH) 2025. It combines traditional e-learning with blockchain-based certificate verification, real-time collaborative whiteboards, and community features to create a complete digital education ecosystem.",
         "tagline": "Bridging the gap in education through technology",
         "version": "2025",
         "type": "Education Technology Platform"
@@ -893,8 +893,8 @@
     },
     "faq": [
         {
-            "question": "What is GyaanSetu?",
-            "answer": "GyaanSetu is a comprehensive education platform that combines online courses, live collaborative whiteboards, blockchain-verified certificates, and community features to provide a complete digital learning experience."
+            "question": "What is NavShiksha?",
+            "answer": "NavShiksha is a comprehensive education platform that combines online courses, live collaborative whiteboards, blockchain-verified certificates, and community features to provide a complete digital learning experience."
         },
         {
             "question": "How do I register as a student?",

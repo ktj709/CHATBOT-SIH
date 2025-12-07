@@ -1,5 +1,5 @@
 """
-CLI interface for the GyaanSetu RAG Chatbot.
+CLI interface for the NavShiksha RAG Chatbot.
 Run this for local testing.
 """
 from chatbot import get_chatbot
@@ -8,9 +8,9 @@ from chatbot import get_chatbot
 def main():
     """Run the chatbot in CLI mode."""
     print("\n" + "="*60)
-    print("🎓 GyaanSetu Assistant - CLI Mode")
+    print("🎓 NavShiksha Assistant - CLI Mode")
     print("="*60)
-    print("Ask me anything about GyaanSetu!")
+    print("Ask me anything about NavShiksha!")
     print("Type 'quit' to exit, 'clear' to reset conversation.")
     print("="*60 + "\n")
     
