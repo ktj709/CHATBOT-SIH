@@ -304,13 +304,28 @@ HTML_TEMPLATE = """
         }
         
         function formatResponse(text) {
-            // Convert markdown-style formatting
-            return text
-                .replace(/\\\\n/g, '<br>')
-                .replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')
-                .replace(/\\*(.*?)\\*/g, '<em>$1</em>')
-                .replace(/^- (.+)$/gm, '• $1')
-                .replace(/^(\\d+)\\. (.+)$/gm, '$1. $2');
+            if (!text) return '';
+            
+            // Normalize newlines
+            text = text.replace(/\\r\\n/g, '\\n').replace(/\\r/g, '\\n');
+            
+            // Bold and italics
+            text = text.replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>');
+            text = text.replace(/\\*(.+?)\\*/g, '<em>$1</em>');
+            
+            // Convert bullet points (* or -) to styled bullets
+            text = text.replace(/^[\\*\\-]\\s+(.+)$/gm, '<div style="margin-left:15px;">• $1</div>');
+            
+            // Convert numbered lists
+            text = text.replace(/^(\\d+)\\.\\s+(.+)$/gm, '<div style="margin-left:15px;"><strong>$1.</strong> $2</div>');
+            
+            // Convert double newlines to paragraph breaks
+            text = text.replace(/\\n\\n/g, '<br><br>');
+            
+            // Convert remaining single newlines to line breaks
+            text = text.replace(/\\n/g, '<br>');
+            
+            return text;
         }
     </script>
 </body>

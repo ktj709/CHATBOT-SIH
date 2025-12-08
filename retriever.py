@@ -11,6 +11,19 @@ from knowledge_processor import get_all_chunks
 from config import TOP_K_RESULTS
 
 
+# Query expansion mappings - maps short/ambiguous terms to fuller versions
+QUERY_EXPANSIONS = {
+    "teach": "teach teacher teaching instructor create course upload",
+    "learn": "learn student learning enroll course study",
+    "register": "register signup sign up registration account create",
+    "certificate": "certificate blockchain verification verify certified",
+    "whiteboard": "whiteboard collaborative drawing tools canvas",
+    "class": "class live session audio video meeting",
+    "doubt": "doubt question ask help support resolution",
+    "admin": "admin administrator manage platform users",
+}
+
+
 class Retriever:
     """TF-IDF based retriever for knowledge base chunks."""
     
@@ -31,6 +44,20 @@ class Retriever:
         self.tfidf_matrix = self.vectorizer.fit_transform(texts)
         print(f"Retriever initialized with {len(self.chunks)} chunks")
     
+    def _expand_query(self, query: str) -> str:
+        """
+        Expand short queries with related terms to improve matching.
+        """
+        query_lower = query.lower()
+        expanded = query
+        
+        for keyword, expansion in QUERY_EXPANSIONS.items():
+            if keyword in query_lower:
+                expanded = f"{query} {expansion}"
+                break
+        
+        return expanded
+    
     def search(self, query: str, top_k: int = None) -> List[Tuple[Dict[str, str], float]]:
         """
         Search for relevant chunks given a query.
@@ -45,8 +72,11 @@ class Retriever:
         if top_k is None:
             top_k = TOP_K_RESULTS
         
+        # Expand the query with related terms
+        expanded_query = self._expand_query(query)
+        
         # Transform query to TF-IDF vector
-        query_vec = self.vectorizer.transform([query])
+        query_vec = self.vectorizer.transform([expanded_query])
         
         # Calculate cosine similarity with all chunks
         similarities = cosine_similarity(query_vec, self.tfidf_matrix).flatten()
