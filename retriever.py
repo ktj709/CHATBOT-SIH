@@ -23,6 +23,39 @@ QUERY_EXPANSIONS = {
     "admin": "admin administrator manage platform users",
 }
 
+# Hindi/Rajasthani to English keyword mappings for retrieval
+HINDI_TO_ENGLISH = {
+    # NavShiksha variations
+    "नवशिक्षा": "NavShiksha",
+    "navshiksha": "NavShiksha",
+    # Common Hindi words
+    "क्या": "what is",
+    "कैसे": "how to",
+    "कैसा": "how",
+    "शिक्षक": "teacher",
+    "अध्यापक": "teacher", 
+    "पढ़ाना": "teach teaching",
+    "पढ़ाई": "study learn",
+    "सीखना": "learn learning",
+    "छात्र": "student",
+    "विद्यार्थी": "student",
+    "पंजीकरण": "register registration",
+    "रजिस्टर": "register",
+    "प्रमाणपत्र": "certificate",
+    "सर्टिफिकेट": "certificate",
+    "व्हाइटबोर्ड": "whiteboard",
+    "कक्षा": "class",
+    "क्लास": "class",
+    "संदेह": "doubt",
+    "सवाल": "question",
+    "कोर्स": "course",
+    "पाठ्यक्रम": "course",
+    # Rajasthani variations
+    "के": "what",
+    "कियां": "how",
+    "मास्टर": "teacher",
+}
+
 
 class Retriever:
     """TF-IDF based retriever for knowledge base chunks."""
@@ -44,10 +77,23 @@ class Retriever:
         self.tfidf_matrix = self.vectorizer.fit_transform(texts)
         print(f"Retriever initialized with {len(self.chunks)} chunks")
     
+    def _translate_query(self, query: str) -> str:
+        """
+        Translate Hindi/Rajasthani keywords to English for retrieval.
+        """
+        translated = query
+        for hindi_word, english_word in HINDI_TO_ENGLISH.items():
+            if hindi_word in query:
+                translated = translated + " " + english_word
+        return translated
+    
     def _expand_query(self, query: str) -> str:
         """
         Expand short queries with related terms to improve matching.
         """
+        # First translate any Hindi/Rajasthani terms
+        query = self._translate_query(query)
+        
         query_lower = query.lower()
         expanded = query
         

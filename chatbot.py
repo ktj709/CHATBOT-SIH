@@ -36,7 +36,16 @@ CONTEXT:
 
 USER QUESTION: {question}
 
+LANGUAGE INSTRUCTION: {language_instruction}
+
 ANSWER:"""
+
+# Language-specific instructions
+LANGUAGE_INSTRUCTIONS = {
+    "english": "Respond in English. Use clear, simple English.",
+    "hindi": "Respond in Hindi (हिंदी में जवाब दें). Use Devanagari script. Be natural and conversational in Hindi.",
+    "rajasthani": "Respond in Rajasthani (राजस्थानी में जवाब दें). Use Devanagari script with Rajasthani dialect words and phrases. Be friendly and use local Rajasthani expressions."
+}
 
 
 class Chatbot:
@@ -63,7 +72,7 @@ class Chatbot:
         
         print(f"Chatbot initialized with model: {GEMINI_MODEL}")
     
-    def _build_prompt(self, question: str) -> str:
+    def _build_prompt(self, question: str, language: str = "english") -> str:
         """Build RAG prompt with retrieved context."""
         context = self.retriever.get_context(question)
         
@@ -71,21 +80,29 @@ class Chatbot:
         if len(context) > MAX_CONTEXT_LENGTH:
             context = context[:MAX_CONTEXT_LENGTH] + "..."
         
-        return RAG_PROMPT_TEMPLATE.format(context=context, question=question)
+        # Get language instruction
+        language_instruction = LANGUAGE_INSTRUCTIONS.get(language, LANGUAGE_INSTRUCTIONS["english"])
+        
+        return RAG_PROMPT_TEMPLATE.format(
+            context=context, 
+            question=question,
+            language_instruction=language_instruction
+        )
     
-    def chat(self, user_message: str) -> str:
+    def chat(self, user_message: str, language: str = "english") -> str:
         """
         Process user message and return response.
         
         Args:
             user_message: User's question/message
+            language: Response language (english, hindi, rajasthani)
             
         Returns:
             Chatbot's response
         """
         try:
-            # Build RAG prompt
-            prompt = self._build_prompt(user_message)
+            # Build RAG prompt with language
+            prompt = self._build_prompt(user_message, language)
             
             # Include conversation history for context
             messages = []

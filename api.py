@@ -31,6 +31,7 @@ app.add_middleware(
 # Pydantic models
 class ChatRequest(BaseModel):
     message: str
+    language: Optional[str] = "english"
 
 
 class ChatResponse(BaseModel):
@@ -237,25 +238,69 @@ HTML_TEMPLATE = """
             background: rgba(233, 69, 96, 0.2);
             border-color: #e94560;
         }
+        
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .language-selector label {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+        }
+        
+        .language-selector select {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #e4e4e7;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .language-selector select:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #e94560;
+        }
+        
+        .language-selector select option {
+            background: #1a1a2e;
+            color: #e4e4e7;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="language-selector">
+            <label for="language">🌐 Language:</label>
+            <select id="language" onchange="changeLanguage()">
+                <option value="english">English</option>
+                <option value="hindi">हिंदी (Hindi)</option>
+                <option value="rajasthani">राजस्थानी (Rajasthani)</option>
+            </select>
+        </div>
         <header>
             <h1>🎓 NavShiksha Assistant</h1>
-            <p class="subtitle">Your AI guide to the NavShiksha education platform (FastAPI)</p>
+            <p class="subtitle" id="subtitle">Your AI guide to the NavShiksha education platform (FastAPI)</p>
         </header>
         
         <div class="chat-container">
             <div class="messages" id="messages">
-                <div class="welcome-message">
-                    <h2>Welcome! 👋</h2>
-                    <p>I can help you learn about NavShiksha - courses, live classes, certificates, and more!</p>
-                    <div class="suggestions">
-                        <div class="suggestion" onclick="askQuestion('What is NavShiksha?')">What is NavShiksha?</div>
-                        <div class="suggestion" onclick="askQuestion('How do I register as a student?')">How to register?</div>
-                        <div class="suggestion" onclick="askQuestion('What tools are on the whiteboard?')">Whiteboard tools</div>
-                        <div class="suggestion" onclick="askQuestion('How are certificates verified?')">Certificate verification</div>
+                <div class="welcome-message" id="welcome-container">
+                    <h2 id="welcome-title">Welcome! 👋</h2>
+                    <p id="welcome-text">I can help you learn about NavShiksha - courses, live classes, certificates, and more!</p>
+                    <div class="suggestions" id="suggestions">
+                        <div class="suggestion" id="sug1" onclick="askQuestion(suggestions[currentLanguage][0].q)"></div>
+                        <div class="suggestion" id="sug2" onclick="askQuestion(suggestions[currentLanguage][1].q)"></div>
+                        <div class="suggestion" id="sug3" onclick="askQuestion(suggestions[currentLanguage][2].q)"></div>
+                        <div class="suggestion" id="sug4" onclick="askQuestion(suggestions[currentLanguage][3].q)"></div>
                     </div>
                 </div>
             </div>
@@ -269,6 +314,90 @@ HTML_TEMPLATE = """
     
     <script>
         let isFirstMessage = true;
+        let currentLanguage = 'english';
+        
+        const subtitles = {
+            english: 'Your AI guide to the NavShiksha education platform (FastAPI)',
+            hindi: 'NavShiksha शिक्षा मंच के लिए आपका AI गाइड (FastAPI)',
+            rajasthani: 'NavShiksha शिक्षा मंच रै सारू थारो AI गाइड (FastAPI)'
+        };
+        
+        const placeholders = {
+            english: 'Ask me anything about NavShiksha...',
+            hindi: 'NavShiksha के बारे में कुछ भी पूछें...',
+            rajasthani: 'NavShiksha रै बारै में कीं भी पूछो...'
+        };
+        
+        const welcomeTitles = {
+            english: 'Welcome! 👋',
+            hindi: 'स्वागत है! 👋',
+            rajasthani: 'खम्मा घणी! 👋'
+        };
+        
+        const welcomeTexts = {
+            english: 'I can help you learn about NavShiksha - courses, live classes, certificates, and more!',
+            hindi: 'मैं आपको NavShiksha के बारे में जानने में मदद कर सकता हूँ - कोर्स, लाइव क्लास, सर्टिफिकेट और बहुत कुछ!',
+            rajasthani: 'मैं थने NavShiksha रै बारै में जाणन में मदद कर सकूं - कोर्स, लाइव क्लास, सर्टिफिकेट अर बांकी घणी चीजां!'
+        };
+        
+        const suggestions = {
+            english: [
+                { q: 'What is NavShiksha?', label: 'What is NavShiksha?' },
+                { q: 'How do I register as a student?', label: 'How to register?' },
+                { q: 'What tools are on the whiteboard?', label: 'Whiteboard tools' },
+                { q: 'How are certificates verified?', label: 'Certificate verification' }
+            ],
+            hindi: [
+                { q: 'नवशिक्षा क्या है?', label: 'NavShiksha क्या है?' },
+                { q: 'छात्र कैसे रजिस्टर करें?', label: 'रजिस्टर कैसे करें?' },
+                { q: 'व्हाइटबोर्ड पर कौन से टूल्स हैं?', label: 'व्हाइटबोर्ड टूल्स' },
+                { q: 'सर्टिफिकेट कैसे वेरिफाई होते हैं?', label: 'सर्टिफिकेट वेरिफिकेशन' }
+            ],
+            rajasthani: [
+                { q: 'नवशिक्षा के छै?', label: 'NavShiksha के छै?' },
+                { q: 'छात्र कियां रजिस्टर करै?', label: 'रजिस्टर कियां करै?' },
+                { q: 'व्हाइटबोर्ड पर किया टूल्स छै?', label: 'व्हाइटबोर्ड टूल्स' },
+                { q: 'सर्टिफिकेट कियां वेरिफाई होवै?', label: 'सर्टिफिकेट वेरिफिकेशन' }
+            ]
+        };
+        
+        function updateWelcomeUI() {
+            const welcomeTitle = document.getElementById('welcome-title');
+            const welcomeText = document.getElementById('welcome-text');
+            const sug1 = document.getElementById('sug1');
+            const sug2 = document.getElementById('sug2');
+            const sug3 = document.getElementById('sug3');
+            const sug4 = document.getElementById('sug4');
+            
+            if (welcomeTitle) welcomeTitle.textContent = welcomeTitles[currentLanguage];
+            if (welcomeText) welcomeText.textContent = welcomeTexts[currentLanguage];
+            if (sug1) {
+                sug1.textContent = suggestions[currentLanguage][0].label;
+                sug1.onclick = () => askQuestion(suggestions[currentLanguage][0].q);
+            }
+            if (sug2) {
+                sug2.textContent = suggestions[currentLanguage][1].label;
+                sug2.onclick = () => askQuestion(suggestions[currentLanguage][1].q);
+            }
+            if (sug3) {
+                sug3.textContent = suggestions[currentLanguage][2].label;
+                sug3.onclick = () => askQuestion(suggestions[currentLanguage][2].q);
+            }
+            if (sug4) {
+                sug4.textContent = suggestions[currentLanguage][3].label;
+                sug4.onclick = () => askQuestion(suggestions[currentLanguage][3].q);
+            }
+        }
+        
+        function changeLanguage() {
+            currentLanguage = document.getElementById('language').value;
+            document.getElementById('subtitle').textContent = subtitles[currentLanguage];
+            document.getElementById('user-input').placeholder = placeholders[currentLanguage];
+            updateWelcomeUI();
+        }
+        
+        // Initialize UI on page load
+        document.addEventListener('DOMContentLoaded', updateWelcomeUI);
         
         function askQuestion(question) {
             document.getElementById('user-input').value = question;
@@ -307,7 +436,7 @@ HTML_TEMPLATE = """
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: message })
+                    body: JSON.stringify({ message: message, language: currentLanguage })
                 });
                 
                 const data = await response.json();
@@ -372,7 +501,7 @@ async def chat(request: ChatRequest):
             raise HTTPException(status_code=400, detail="No message provided")
         
         chatbot = get_chatbot()
-        response = chatbot.chat(request.message)
+        response = chatbot.chat(request.message, language=request.language)
         
         return ChatResponse(response=response)
         
